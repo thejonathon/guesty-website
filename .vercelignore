@@ -1,0 +1,26 @@
+.agents/
+.checks/
+.claude/
+.codex/
+.venv/
+.vscode/
+node_modules/
+vercel-deploy/
+vercelrecovery/
+model-chat-skill/
+multi-agent-chrome-skill/
+multi-chrome-agent-workspace/
+.DS_Store
+Thumbs.db
+*.ipynb
+*.py
+*.md
+requirements.txt
+skills-lock.json
+photos/account.squarespace.com_*
+photos/current index page*
+photos/directbookingsite.png
+photos/squarespace_backup_codes_*
+photos/vercel.com_*
+photos/www.google.com_*
+photos/www.staylowcountry.com_*

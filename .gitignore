@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+
+# Virtual environments
+.venv/
+
+# Recovery backups
+vercelrecovery/
+vercel-deploy/
+.checks/
+.codex/
+.playwright-cli/
+analysis/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+
+# Agent/AI config (not needed for deployment)
+.agents/
+.claude/
+model-chat-skill/
+multi-agent-chrome-skill/
+multi-chrome-agent-workspace/
+
+# Python
+__pycache__/
+*.pyc
+
+# Markdown docs (not part of the website)
+Agent Chatrooms.md
+GEMINI (Self Modifying).md
+Multi-Agent MCP Orchestration.md
+Prompt Contracts.md
+Reverse Prompting.md
+Stochastic Multi-Agent Consensus.md
+Subagent Verification Loops.md
+Video-to-Action via Gemini Passthrough.md
+guesty-customization-guide.md
+seo-traffic-strategy.md
+
+# Python files (not part of the website)
+agent.py
+agent.ipynb
+requirements.txt
+skills-lock.json
+
+# Screenshots and sensitive files in photos/
+photos/account.squarespace.com_*
+photos/directbookingsite.png
+photos/squarespace_backup_codes_*
+photos/vercel.com_*
+photos/www.google.com_*
+photos/www.staylowcountry.com_*
+photos/current index page*
+
+.vercel

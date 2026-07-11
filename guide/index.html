@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide | Central Island Lab</title>
+  <meta name="description" content="How the 10 vacation rental website concepts were generated, reviewed, and prepared for Vercel.">
+  <meta name="theme-color" content="#07140f">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307140f'/%3E%3Cpath d='M12 34 32 17l20 17v18H38V39H26v13H12V34Z' fill='%23f7efe1'/%3E%3Cpath d='M18 32 32 20l14 12' fill='none' stroke='%2342d392' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preload" as="image" href="/photos/hero-1-exterior.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <nav class="topbar" aria-label="Primary">
+    <a class="brand" href="/">Central Island Lab</a>
+    <div class="navlinks">
+      <a href="/#concepts">Concepts</a>
+      <a href="/guide">Guide</a>
+      <a href="https://jtaylormade.guestybookings.com/en" target="_blank" rel="noopener">Book Direct</a>
+    </div>
+  </nav>
+<main class="guide-page">
+  <section class="guide-hero">
+    <p class="eyebrow">Build guide</p>
+    <h1>How the 10-site vacation rental showcase was built.</h1>
+    <p>This project uses a static generator to create a hub, ten concept websites, and ten matching guide routes from one structured source of truth.</p>
+  </section>
+  <section class="guide-grid wide">
+    <article>
+      <h2>Workflow</h2>
+      <p>1. Audited the existing Central Island Home page and local photo assets.</p>
+      <p>2. Defined ten different visual directions for a single-property vacation rental and future management company.</p>
+      <p>3. Generated static routes that Vercel can serve directly with clean URLs.</p>
+      <p>4. Added a guide route for every concept plus this master guide.</p>
+    </article>
+    <article>
+      <h2>Performance decisions</h2>
+      <p>The hero image is discoverable in HTML and marked high priority. Below-fold images use native lazy loading. Animations are primarily transform and opacity, and reduced-motion preferences are respected.</p>
+    </article>
+    <article>
+      <h2>Route map</h2>
+      <ul class="route-list">
+        <li><a href="/site-01-coastal-orbit/">Coastal Orbit</a><a href="/site-01-coastal-orbit/guide/">Guide</a></li><li><a href="/site-02-tidebook/">Tidebook</a><a href="/site-02-tidebook/guide/">Guide</a></li><li><a href="/site-03-revenue-cockpit/">Revenue Cockpit</a><a href="/site-03-revenue-cockpit/guide/">Guide</a></li><li><a href="/site-04-saltglass/">Saltglass</a><a href="/site-04-saltglass/guide/">Guide</a></li><li><a href="/site-05-neon-lowcountry/">Neon Lowcountry</a><a href="/site-05-neon-lowcountry/guide/">Guide</a></li><li><a href="/site-06-heirloom-host/">Heirloom Host</a><a href="/site-06-heirloom-host/guide/">Guide</a></li><li><a href="/site-07-stay-lab/">Stay Lab</a><a href="/site-07-stay-lab/guide/">Guide</a></li><li><a href="/site-08-pet-and-porch/">Pet and Porch</a><a href="/site-08-pet-and-porch/guide/">Guide</a></li><li><a href="/site-09-blueprint/">Blueprint</a><a href="/site-09-blueprint/guide/">Guide</a></li><li><a href="/site-10-dreamwave/">Dreamwave</a><a href="/site-10-dreamwave/guide/">Guide</a></li>
+      </ul>
+    </article>
+    <article>
+      <h2>Three pass review model</h2>
+      <p>Each concept guide records three review passes: conversion and clarity, creative differentiation, then responsive and deployment readiness.</p>
+    </article>
+  </section>
+</main>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

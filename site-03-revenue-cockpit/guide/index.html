@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revenue Cockpit Guide | Central Island Lab</title>
+  <meta name="description" content="Build notes and iteration passes for the Revenue Cockpit concept.">
+  <meta name="theme-color" content="#07140f">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307140f'/%3E%3Cpath d='M12 34 32 17l20 17v18H38V39H26v13H12V34Z' fill='%23f7efe1'/%3E%3Cpath d='M18 32 32 20l14 12' fill='none' stroke='%2342d392' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preload" as="image" href="/photos/hero-1-exterior.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <nav class="topbar" aria-label="Primary">
+    <a class="brand" href="/">Central Island Lab</a>
+    <div class="navlinks">
+      <a href="/#concepts">Concepts</a>
+      <a href="/guide">Guide</a>
+      <a href="https://jtaylormade.guestybookings.com/en" target="_blank" rel="noopener">Book Direct</a>
+    </div>
+  </nav>
+<main class="guide-page">
+  <section class="guide-hero">
+    <p class="eyebrow">Guide route / 03</p>
+    <h1>Revenue Cockpit: how this concept was built</h1>
+    <p>Operational command center for a single-property vacation rental business, optimized for Vercel static hosting and video-friendly presentation.</p>
+  </section>
+  <section class="guide-grid">
+    <article>
+      <h2>Creative brief</h2>
+      <p><strong>Primary angle:</strong> operations and analytics.</p>
+      <p><strong>Mood:</strong> dark glass, electric blue, chartreuse.</p>
+      <p><strong>Motion:</strong> animated dashboard metrics, radar sweep, live status rails.</p>
+      <div class="swatches"><span style="--swatch:#05070d">#05070d</span><span style="--swatch:#e8f2ff">#e8f2ff</span><span style="--swatch:#44a3ff">#44a3ff</span><span style="--swatch:#b8ff6a">#b8ff6a</span></div>
+    </article>
+    <article>
+      <h2>Build method</h2>
+      <p>The route is generated from shared structured data in <code>generate-sites.mjs</code>. The page reuses local property photos, a global stylesheet, and one small JavaScript file for progressive interactions.</p>
+      <p>For Vercel, each concept lives in its own folder with an <code>index.html</code>, so clean URLs work without a server framework.</p>
+    </article>
+    <article>
+      <h2>Iteration pass 1</h2>
+      <p>Checked the first viewport for a clear property image, direct business positioning, readable contrast, and a visible conversion path.</p>
+    </article>
+    <article>
+      <h2>Iteration pass 2</h2>
+      <p>Improved the visual system by making palette, spacing, typography tone, and motion language distinct from the other nine concepts.</p>
+    </article>
+    <article>
+      <h2>Iteration pass 3</h2>
+      <p>Reviewed responsive layout, reduced-motion behavior, image loading priority, guide completeness, and Vercel route structure.</p>
+    </article>
+  </section>
+</main>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

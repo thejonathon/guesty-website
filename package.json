@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "build": "node generate-sites.mjs",
+    "start": "npx serve ."
+  },
+  "devDependencies": {}
+}
