@@ -1,7 +1,18 @@
 {
   "scripts": {
-    "build": "node generate-sites.mjs",
-    "start": "npx serve ."
+    "build": "node build.mjs",
+    "check": "node scripts/check-site.mjs",
+    "audit:browser": "node scripts/browser-audit.mjs",
+    "start": "npx serve dist -l 3000",
+    "verify": "npm run build && npm run check"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource-variable/newsreader": "^5.2.10",
+    "lighthouse": "^13.4.0",
+    "playwright": "^1.61.1",
+    "sharp": "^0.35.3"
+  }
 }

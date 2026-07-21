@@ -58,3 +58,13 @@ photos/www.staylowcountry.com_*
 photos/current index page*
 
 .vercel
+dist/
+output/
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# QA pass screenshots (kept locally, documented in /guide)
+docs/passes/
