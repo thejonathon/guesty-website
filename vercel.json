@@ -1,6 +1,6 @@
 {
-  "buildCommand": "node generate-sites.mjs",
-  "outputDirectory": ".",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": true
 }
