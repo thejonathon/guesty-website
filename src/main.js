@@ -136,3 +136,80 @@ if (!reducedMotion.matches && "IntersectionObserver" in window) {
   }, { rootMargin: "0px 0px -8%" });
   for (const el of reveals) { el.classList.add("io-pending"); io.observe(el); }
 }
+
+// Front-End JSON Database Helper
+const DB_KEY = "guesty_contact_db";
+window.getContactSubmissions = () => {
+  try {
+    return JSON.parse(localStorage.getItem(DB_KEY) || "[]");
+  } catch (err) {
+    console.warn("Could not read contact database:", err);
+    return [];
+  }
+};
+
+const saveSubmissionToDatabase = (entry) => {
+  const currentDB = window.getContactSubmissions();
+  currentDB.push(entry);
+  try {
+    localStorage.setItem(DB_KEY, JSON.stringify(currentDB));
+  } catch (err) {
+    console.warn("Could not write to contact database:", err);
+  }
+};
+
+// Contact Form & Security Captcha Handling
+const contactForm = document.getElementById("contact-form");
+if (contactForm) {
+  const captchaQuestion = document.getElementById("captcha-question");
+  const captchaInput = document.getElementById("contact-captcha");
+  const statusBanner = document.getElementById("form-status");
+
+  let num1 = Math.floor(Math.random() * 8) + 2;
+  let num2 = Math.floor(Math.random() * 8) + 1;
+  let expectedAnswer = num1 + num2;
+
+  if (captchaQuestion) {
+    captchaQuestion.textContent = `${num1} + ${num2} = ?`;
+  }
+
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    const captchaValue = parseInt((formData.get("captcha") || "").toString().trim(), 10);
+
+    if (captchaValue !== expectedAnswer) {
+      statusBanner.className = "form-status error";
+      statusBanner.textContent = "Security Challenge Incorrect: Please double check your math answer.";
+      captchaInput.focus();
+      return;
+    }
+
+    if (!contactForm.checkValidity()) {
+      statusBanner.className = "form-status error";
+      statusBanner.textContent = "Please fill out all required fields with valid values.";
+      return;
+    }
+
+    const submissionEntry = {
+      id: "sub_" + Date.now().toString(36) + Math.random().toString(36).substring(2, 6),
+      timestamp: new Date().toISOString(),
+      name: (formData.get("name") || "").toString().trim(),
+      email: (formData.get("email") || "").toString().trim(),
+      phone: (formData.get("phone") || "").toString().trim(),
+      message: (formData.get("message") || "").toString().trim(),
+    };
+
+    saveSubmissionToDatabase(submissionEntry);
+
+    statusBanner.className = "form-status success";
+    statusBanner.textContent = "Thank you! Your message has been saved to our database and submitted successfully.";
+    contactForm.reset();
+
+    // Generate new captcha for security
+    num1 = Math.floor(Math.random() * 8) + 2;
+    num2 = Math.floor(Math.random() * 8) + 1;
+    expectedAnswer = num1 + num2;
+    if (captchaQuestion) captchaQuestion.textContent = `${num1} + ${num2} = ?`;
+  });
+}

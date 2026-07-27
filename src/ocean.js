@@ -115,13 +115,14 @@ const fragmentShader = /* glsl */ `
     float foam = smoothstep(0.42, 0.62, vCrest + f1 * 0.08) * 0.5;
     col = mix(col, uFoam, foam);
 
-    // descent: water darkens and cools with scroll depth
-    col = mix(col, uDeep * 0.42, uDepth * 0.75);
+    // descent: as you scroll down toward the bottom/footer, ocean waves become lighter and luminous
+    vec3 lightSea = mix(uShal * 1.15, uSky, 0.4);
+    col = mix(col, lightSea, uDepth * 0.45);
 
     // transparency: clearest looking straight down into troughs,
-    // more opaque at grazing angles, on crests, and with depth
-    float alpha = 0.34 + fres * 0.5 + clamp(vCrest, 0.0, 1.0) * 0.18 + foam * 0.5;
-    alpha = clamp(alpha + uDepth * 0.28, 0.0, 0.93);
+    // more opaque at grazing angles, on crests
+    float alpha = 0.34 + fres * 0.4 + clamp(vCrest, 0.0, 1.0) * 0.15 + foam * 0.4;
+    alpha = clamp(alpha, 0.25, 0.75);
 
     // fade the far plane edge into nothing so the horizon stays soft
     float distFade = smoothstep(300.0, 150.0, length(vPos.xz));

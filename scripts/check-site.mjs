@@ -2,7 +2,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { generated, photos } from "../src/content.mjs";
 
-const routes = ["index.html", "stay/index.html", "gallery/index.html", "location/index.html", "faq/index.html", "guide/index.html"];
+const routes = ["index.html", "stay/index.html", "gallery/index.html", "location/index.html", "faq/index.html", "guide/index.html", "contact/index.html"];
 const failures = [];
 for (const route of routes) {
   const path = join("dist", route);

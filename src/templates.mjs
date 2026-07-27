@@ -1,7 +1,7 @@
 import { pages, photos, site } from "./content.mjs";
 
 const photo = Object.fromEntries(photos.map((p) => [p.id, p]));
-const navRoutes = [pages.home, pages.stay, pages.gallery, pages.location, pages.faq, pages.guide];
+const navRoutes = [pages.home, pages.stay, pages.gallery, pages.location, pages.faq, pages.guide, pages.contact];
 
 function nav(active) {
   const links = navRoutes.map((page) => {
@@ -206,11 +206,69 @@ function schema() {
   return JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: site.domain, description: pages.home.description });
 }
 
+function contactSection() {
+  return `<section class="contact-section reveal" id="contact" aria-labelledby="contact-title">
+    <div class="contact-card">
+      <header>
+        <p class="eyebrow">Get in Touch</p>
+        <h2 id="contact-title">Have questions about your stay?</h2>
+        <p>Send us a message and we’ll get back to you promptly.</p>
+      </header>
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="contact-name">Name *</label>
+            <input type="text" id="contact-name" name="name" required placeholder="Your full name" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="contact-email">Email *</label>
+            <input type="email" id="contact-email" name="email" required placeholder="you@example.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="field">
+          <label for="contact-phone">Phone Number</label>
+          <input type="tel" id="contact-phone" name="phone" placeholder="(555) 000-0000" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="contact-message">Message *</label>
+          <textarea id="contact-message" name="message" required placeholder="Tell us about your upcoming trip or ask any questions..."></textarea>
+        </div>
+        <div class="field captcha-box">
+          <label for="contact-captcha">Security Challenge: <strong id="captcha-question">5 + 3 = ?</strong> *</label>
+          <input type="text" id="contact-captcha" name="captcha" required placeholder="Answer" autocomplete="off">
+        </div>
+        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+        <button type="submit" class="button button-coral">Send Message</button>
+      </form>
+    </div>
+  </section>`;
+}
+
+function contact() {
+  const page = pages.contact;
+  return `<div class="sea-stage" aria-hidden="true">
+    <div class="seafloor"></div>
+    <div class="light-sweep"></div>
+    <canvas id="sea-canvas"></canvas>
+    <div class="depth-veil"></div>
+  </div>
+  <main id="main" tabindex="-1">
+    <section class="sea-hero" id="page-intro">
+      <p class="eyebrow">${page.eyebrow}</p>
+      <h1><span class="hero-line"><span>${page.heading}</span></span></h1>
+      <p class="lede">${page.intro}</p>
+    </section>
+    <section class="contact-page reveal" style="width:min(1060px,100%);margin:0 auto 4rem;position:relative;z-index:1;">
+      ${contactSection()}
+    </section>
+  </main>`;
+}
+
 function shell(page, active, body, { sea = false } = {}) {
   const oceanScripts = sea
     ? `<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script type="module" src="/assets/ocean.js"></script>`
     : "";
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${sea ? "#0b7c96" : "#f6eedd"}"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script><script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="${sea ? "page-sea" : "page-sand"}"><a class="skip-link" href="#main">Skip to main content</a>${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="/faq/">Booking questions</a><a href="${site.bookingUrl}">Guesty booking</a><a href="/guide/">How this was built</a><a href="mailto:${site.email}">Email</a></div><p class="credit">Designed &amp; built by Claude (Fable 5) · <a href="/guide/">read the maker’s guide</a></p></footer></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${sea ? "#0b7c96" : "#f6eedd"}"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script><script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="${sea ? "page-sea" : "page-sand"}"><a class="skip-link" href="#main">Skip to main content</a>${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="/faq/">Booking questions</a><a href="${site.bookingUrl}">Guesty booking</a><a href="/guide/">How this was built</a><a href="/contact/">Contact us</a><a href="mailto:${site.email}">Email</a></div><p class="credit">Designed &amp; built by Claude (Fable 5) · <a href="/guide/">read the maker’s guide</a></p></footer></body></html>`;
 }
 
 export function renderPages() {
@@ -221,5 +279,6 @@ export function renderPages() {
     { path: "location/index.html", html: shell(pages.location, "/location/", location()) },
     { path: "faq/index.html", html: shell(pages.faq, "/faq/", faq()) },
     { path: "guide/index.html", html: shell(pages.guide, "/guide/", guide()) },
+    { path: "contact/index.html", html: shell(pages.contact, "/contact/", contact(), { sea: true }) },
   ];
 }

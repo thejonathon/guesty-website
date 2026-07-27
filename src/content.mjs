@@ -85,4 +85,12 @@ export const pages = {
     heading: "How the water got into the website.",
     intro: "Everything on this site — the transparent turquoise sea, the glass calendar, the type, the textures — was designed and built by Claude (Fable 5). Here is exactly how, so you can do it too.",
   },
+  contact: {
+    path: "/contact/",
+    title: "Contact Us | Central Island Home",
+    description: "Get in touch with us directly regarding your stay at Central Island Home.",
+    eyebrow: "Get in Touch",
+    heading: "Questions about your upcoming trip?",
+    intro: "Send a direct message below. Submissions are saved to our direct reservations database.",
+  },
 };
