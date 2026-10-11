@@ -1,7 +1,7 @@
 export const site = {
   name: "Central Island Home",
   domain: "https://centralislandhome.com",
-  bookingUrl: "https://jtaylormade.guestybookings.com/en",
+  bookingUrl: "https://jtaylormade.guestybookings.com/en/properties/6752a56cfde24c00118255ec",
   guestySiteUrl: "jtaylormade.guestybookings.com",
   email: "thejonathontaylor@gmail.com",
 };

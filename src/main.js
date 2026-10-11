@@ -1,5 +1,50 @@
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
+const trackAnalyticsEvent = (name, params = {}) => {
+  if (!name) return;
+  const eventParams = { ...params, transport_type: "beacon" };
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, eventParams);
+    return;
+  }
+  if (Array.isArray(window.dataLayer)) {
+    window.dataLayer.push({ event: name, ...eventParams });
+  }
+};
+
+const bindAnalyticsClickTracking = () => {
+  document.addEventListener("click", (event) => {
+    const anchor = event.target.closest("a[data-analytics-event], button[data-analytics-event]");
+    if (!anchor || !document.body.contains(anchor)) return;
+
+    const eventName = anchor.dataset.analyticsEvent;
+    if (!eventName) return;
+
+    const eventCategory = eventName.startsWith("booking_")
+      ? "booking"
+      : eventName.startsWith("contact_")
+        ? "contact"
+        : "engagement";
+
+    trackAnalyticsEvent(eventName, {
+      event_category: eventCategory,
+      event_label: anchor.dataset.analyticsLabel || "tracked_link",
+      link_location: anchor.dataset.analyticsLocation || "unknown",
+      link_url: anchor.getAttribute("href") || "",
+      link_text: anchor.textContent?.trim() || "",
+    });
+  });
+};
+bindAnalyticsClickTracking();
+
+const trackContactError = (type, details = {}) => {
+  trackAnalyticsEvent("contact_form_validation_error", {
+    event_category: "contact",
+    error_type: type,
+    ...details,
+  });
+};
+
 for (const line of document.querySelectorAll("[data-photo-line]")) {
   const rail = line.querySelector(".photo-rail");
   const items = [...line.querySelectorAll("[data-gallery-item]")];
@@ -106,17 +151,6 @@ if (guestyTarget) {
   if (location.hash === "#booking") loadGuesty();
 }
 
-// Lazy calendar iframe — src attaches only as the panel approaches
-for (const frame of document.querySelectorAll(".calendar-frame iframe[data-src]")) {
-  const attach = () => { if (!frame.src) frame.src = frame.dataset.src; };
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) { attach(); io.disconnect(); }
-    }, { rootMargin: "800px 0px" });
-    io.observe(frame);
-  } else attach();
-  if (location.hash === "#booking") attach();
-}
 
 // Header: glass once the page starts moving
 const header = document.querySelector("[data-header]");
@@ -179,6 +213,7 @@ if (contactForm) {
     const captchaValue = parseInt((formData.get("captcha") || "").toString().trim(), 10);
 
     if (captchaValue !== expectedAnswer) {
+      trackContactError("captcha_mismatch", { event_label: "captcha_invalid", link_text: "contact_form" });
       statusBanner.className = "form-status error";
       statusBanner.textContent = "Security Challenge Incorrect: Please double check your math answer.";
       captchaInput.focus();
@@ -186,6 +221,7 @@ if (contactForm) {
     }
 
     if (!contactForm.checkValidity()) {
+      trackContactError("validation_failed", { event_label: "required_fields" });
       statusBanner.className = "form-status error";
       statusBanner.textContent = "Please fill out all required fields with valid values.";
       return;
@@ -204,6 +240,7 @@ if (contactForm) {
 
     statusBanner.className = "form-status success";
     statusBanner.textContent = "Thank you! Your message has been saved to our database and submitted successfully.";
+    trackAnalyticsEvent("contact_form_submit", { event_category: "contact", event_label: "success" });
     contactForm.reset();
 
     // Generate new captcha for security

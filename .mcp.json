@@ -1,8 +1,24 @@
 {
   "mcpServers": {
-    "higgsfield": {
+    "GitHub": {
       "type": "http",
-      "url": "https://mcp.higgsfield.ai/mcp"
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "Next.js Devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "next-devtools-mcp"
+      ]
+    },
+    "Vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com"
+    },
+    "Supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp"
     }
   }
 }

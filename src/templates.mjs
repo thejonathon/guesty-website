@@ -1,7 +1,27 @@
 import { pages, photos, site } from "./content.mjs";
-
 const photo = Object.fromEntries(photos.map((p) => [p.id, p]));
-const navRoutes = [pages.home, pages.stay, pages.gallery, pages.location, pages.faq, pages.guide, pages.contact];
+const navRoutes = [pages.home, pages.stay, pages.gallery, pages.contact];
+
+function analyticsHeadSnippet({ measurementId = "", enableVercelFallback = false } = {}) {
+  const escapedId = measurementId.replace(/[^A-Za-z0-9-]/g, "");
+  const ga = measurementId && escapedId ? escapedId : "";
+  const vercelFallback = enableVercelFallback
+    ? `<script defer src="/_vercel/insights/script.js"></script>`
+    : "";
+  if (!ga && !enableVercelFallback) return "";
+
+  const gtag = ga
+    ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${ga}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "${ga}", { send_page_view: true });
+</script>`
+    : "";
+
+  return `${gtag}${vercelFallback}`;
+}
 
 function nav(active) {
   const links = navRoutes.map((page) => {
@@ -11,7 +31,7 @@ function nav(active) {
   return `<header class="site-header" data-header>
     <a class="brand" href="/" aria-label="Central Island Home, home"><span>Central Island</span><em>Home</em></a>
     <nav aria-label="Primary"><ul>${links}</ul></nav>
-    <a class="button button-coral button-small" href="${site.bookingUrl}">Book</a>
+    <a class="button button-coral button-small" href="${site.bookingUrl}" data-analytics-event="booking_cta_click" data-analytics-label="header_book" data-analytics-location="header">Book</a>
   </header>`;
 }
 
@@ -23,21 +43,26 @@ function picture(p, { className = "", eager = false, sizes = "(max-width: 720px)
   </picture>`;
 }
 
-function bookingBand(id = "booking", { glass = false } = {}) {
+function bookingBand(id = "booking", { glass = true } = {}) {
   return `<section class="booking-band${glass ? " sea-section" : ""}" id="${id}" aria-labelledby="booking-title">
     <div${glass ? ' class="glass"' : ""}>
       <div class="booking-head">
-        <p class="eyebrow">The calendar, beneath the surface</p>
+        <p class="eyebrow">Direct Guesty Booking</p>
         <h2 id="booking-title">Choose your dates when you’re ready.</h2>
-        <p>Guesty holds current availability, pricing, and reservation terms — live, below.</p>
+        <p>Guesty holds live availability, real-time rates, and instant reservation confirmation.</p>
       </div>
       <div class="booking-widget-shell">
         <div id="search-widget_IO312PWQ" data-guesty-widget aria-label="Guesty availability search"></div>
-        <div class="calendar-frame">
-          <iframe data-src="https://${site.guestySiteUrl}/en/properties" title="Guesty live availability calendar and booking" loading="lazy"></iframe>
+        <div class="booking-direct-card">
+          <div class="direct-perks">
+            <div class="perk"><span>✓</span> Best Rate Direct</div>
+            <div class="perk"><span>✓</span> Instant Confirmation</div>
+            <div class="perk"><span>✓</span> Live Calendar</div>
+          </div>
+          <a class="button button-coral" href="${site.bookingUrl}" data-analytics-event="booking_cta_click" data-analytics-label="booking_band_direct" data-analytics-location="booking_band">Check Live Calendar on Guesty →</a>
         </div>
-        <p class="booking-fallback">Prefer a full page? <a href="${site.bookingUrl}">Open the booking calendar on Guesty</a>.</p>
-        <noscript><p><a class="button" href="${site.bookingUrl}">Check availability on Guesty</a></p></noscript>
+        <p class="booking-fallback">Prefer a full page? <a href="${site.bookingUrl}" data-analytics-event="booking_cta_click" data-analytics-label="booking_band_fallback" data-analytics-location="booking_band">Open the property calendar on Guesty</a>.</p>
+        <noscript><p><a class="button button-coral" href="${site.bookingUrl}" data-analytics-event="booking_cta_click" data-analytics-label="booking_band_fallback_noscript" data-analytics-location="booking_band">Check availability on Guesty</a></p></noscript>
       </div>
     </div>
   </section>`;
@@ -64,18 +89,12 @@ function intro(page) {
 
 function home() {
   const page = pages.home;
-  return `<div class="sea-stage" aria-hidden="true">
-    <div class="seafloor"></div>
-    <div class="light-sweep"></div>
-    <canvas id="sea-canvas"></canvas>
-    <div class="depth-veil"></div>
-  </div>
-  <main id="main" tabindex="-1">
+  return `<main id="main" tabindex="-1">
     <section class="sea-hero" id="page-intro">
       <p class="eyebrow">${page.eyebrow}</p>
       <h1><span class="hero-line"><span>Come home to</span></span><span class="hero-line"><span>the <em>slower side</em></span></span><span class="hero-line"><span>of the coast.</span></span></h1>
       <p class="lede">${page.intro}</p>
-      <div class="actions"><a class="button" href="#booking">Check availability</a><a class="button button-outline" href="/stay/">Step inside</a></div>
+      <div class="actions"><a class="button" href="#booking" data-analytics-event="booking_cta_click" data-analytics-label="hero_book" data-analytics-location="home_hero">Book</a><a class="button button-outline" href="/stay/">Step inside</a></div>
       <p class="scroll-cue" aria-hidden="true">Descend</p>
     </section>
     <section class="sea-section reveal" aria-labelledby="stay-title">
@@ -87,17 +106,20 @@ function home() {
       </div>
     </section>
     ${bookingBand("booking", { glass: true })}
-    <div class="shore-break" aria-hidden="true"><svg viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0,110 C180,190 340,40 540,90 C740,140 860,30 1080,80 C1260,120 1360,70 1440,100 L1440,220 L0,220 Z"/></svg></div>
     <div class="shore">
       <section class="gallery-preview reveal" aria-labelledby="gallery-preview-title">
         <div class="section-heading"><div><p class="eyebrow">The photo line</p><h2 id="gallery-preview-title">Washed ashore, still dripping.</h2></div><a class="text-link" href="/gallery/">Open the full gallery <span aria-hidden="true">→</span></a></div>
         ${galleryRail([photo["fire-pit"], photo["living-overview"], photo["patio-dining"]], true)}
       </section>
       <section class="editorial-split reveal">
-        <div><p class="eyebrow">Outside</p><h2>The backyard keeps its own schedule.</h2></div>
-        <div><p>A fire pit, a grill patio with its own television, an outdoor shower for sandy feet, and a long lawn under mature trees. The best room in the house isn’t in the house.</p><a class="text-link" href="/gallery/">See the outdoors <span aria-hidden="true">→</span></a></div>
+        <div class="glass" style="padding: clamp(1.8rem, 3.5vw, 2.5rem);">
+          <p class="eyebrow">Outside</p><h2>The backyard keeps its own schedule.</h2>
+        </div>
+        <div class="glass" style="padding: clamp(1.8rem, 3.5vw, 2.5rem);">
+          <p>A fire pit, a grill patio with its own television, an outdoor shower for sandy feet, and a long lawn under mature trees. The best room in the house isn’t in the house.</p><a class="text-link" href="/gallery/">See the outdoors <span aria-hidden="true">→</span></a>
+        </div>
       </section>
-      <section class="location-teaser reveal"><p class="eyebrow">Plan the days</p><h2>Keep Charleston at the center of the story.</h2><p>We protect the home’s exact location while giving you a thoughtful starting point for the wider Charleston area.</p><a class="button button-outline" href="/location/">Plan your stay</a></section>
+      <section class="location-teaser reveal"><p class="eyebrow">Plan the days</p><h2>Keep Charleston at the center of the story.</h2><p>We protect the home’s exact location while giving you a thoughtful starting point for the wider Charleston area.</p><a class="button button-outline" href="/stay/">Explore the stay</a></section>
     </div>
   </main>`;
 }
@@ -129,9 +151,9 @@ function location() {
 function faq() {
   const page = pages.faq;
   const faqs = [
-    ["How do I check availability?", `Use the booking section on this site or continue to <a href="${site.bookingUrl}">Guesty</a> for current dates.`],
+    ["How do I check availability?", `Use the booking section on this site or continue to <a href="${site.bookingUrl}" data-analytics-event="booking_cta_click" data-analytics-label="faq_booking" data-analytics-location="faq">Guesty</a> for current dates.`],
     ["Where will I see pricing?", "Guesty shows current pricing during the date and guest search."],
-    ["Where can I review reservation terms?", `Review the <a href="${site.bookingUrl}/terms">current Guesty terms</a> during your booking journey.`],
+    ["Where can I review reservation terms?", `Review the <a href="${site.bookingUrl}/terms" data-analytics-event="booking_cta_click" data-analytics-label="faq_terms" data-analytics-location="faq">current Guesty terms</a> during your booking journey.`],
     ["Why is the exact address not shown here?", "The public site protects the property’s precise location. Confirmed arrival information is shared through the reservation process."],
     ["Are the photographs real?", "Yes. Every property photograph on this site is a real image of Central Island Home. The only AI-generated imagery is the decorative ocean water and sand textures — and those are labeled in the maker's guide."],
     ["How can I ask another question?", `Email <a href="mailto:${site.email}">${site.email}</a> or use the contact details provided by Guesty.`],
@@ -169,11 +191,7 @@ gl_FragColor = vec4(col, alpha);</code></pre>
     </section>
     <section class="reveal">
       <h2>3 · The calendar beneath the surface</h2>
-      <p>The Guesty search widget and full booking calendar sit in a glass panel (<code>backdrop-filter: blur(20px) saturate(1.5)</code>) over the living water. Both are lazy: an <code>IntersectionObserver</code> injects Guesty’s script only when the panel approaches the viewport, and the calendar iframe gets its <code>src</code> the same way. If either fails, a plain link to the booking page remains — availability and pricing always belong to Guesty, never to this site.</p>
-      <pre tabindex="0"><code>new IntersectionObserver((entries) => {
-  if (entries.some((e) => e.isIntersecting)) loadGuesty();
-}, { rootMargin: "600px 0px" }).observe(panel);</code></pre>
-    </section>
+      <p>The Guesty search widget and full booking calendar sit in a glass panel (<code>backdrop-filter: blur(20px) saturate(1.5)</code>) over the living water. Both are lazy: an <code>IntersectionObserver</code> injects Guesty’s script only when the panel approaches the viewport, and the calendar iframe gets its <code>src</code> the same way. If either fails, a plain link to the booking page remains — availability and pricing always setupScrollReveal();</section>
     <section class="reveal">
       <h2>4 · Palette &amp; type</h2>
       <p>Eight tokens run the whole site — a water column from abyss to foam, warm sand for the shore, and one coral accent used sparingly:</p>
@@ -246,13 +264,7 @@ function contactSection() {
 
 function contact() {
   const page = pages.contact;
-  return `<div class="sea-stage" aria-hidden="true">
-    <div class="seafloor"></div>
-    <div class="light-sweep"></div>
-    <canvas id="sea-canvas"></canvas>
-    <div class="depth-veil"></div>
-  </div>
-  <main id="main" tabindex="-1">
+  return `<main id="main" tabindex="-1">
     <section class="sea-hero" id="page-intro">
       <p class="eyebrow">${page.eyebrow}</p>
       <h1><span class="hero-line"><span>${page.heading}</span></span></h1>
@@ -264,21 +276,21 @@ function contact() {
   </main>`;
 }
 
-function shell(page, active, body, { sea = false } = {}) {
-  const oceanScripts = sea
-    ? `<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script type="module" src="/assets/ocean.js"></script>`
-    : "";
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${sea ? "#0b7c96" : "#f6eedd"}"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script><script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="${sea ? "page-sea" : "page-sand"}"><a class="skip-link" href="#main">Skip to main content</a>${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="/faq/">Booking questions</a><a href="${site.bookingUrl}">Guesty booking</a><a href="/guide/">How this was built</a><a href="/contact/">Contact us</a><a href="mailto:${site.email}">Email</a></div><p class="credit">Designed &amp; built by Claude (Fable 5) · <a href="/guide/">read the maker’s guide</a></p></footer></body></html>`;
+function shell(page, active, body, { sea = true, analytics = {} } = {}) {
+  const analyticsHead = analyticsHeadSnippet(analytics);
+  const oceanScripts = `<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script type="module" src="/assets/ocean.js"></script>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b7c96"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600&family=Playfair+Display&family=Roboto+Mono&display=swap" rel="stylesheet"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script>${analyticsHead}<script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="page-sea"><a class="skip-link" href="#main">Skip to main content</a><div class="sea-stage" aria-hidden="true"><div class="seafloor"></div><div class="light-sweep"></div><canvas id="sea-canvas"></canvas><div class="depth-veil"></div></div>${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="${site.bookingUrl}" data-analytics-event="booking_cta_click" data-analytics-label="footer_booking" data-analytics-location="footer">Guesty booking</a><a href="/contact/">Contact us</a><a href="mailto:${site.email}">Email</a></div></footer></body></html>`;
 }
 
-export function renderPages() {
+export function renderPages(analytics = {}) {
   return [
-    { path: "index.html", html: shell(pages.home, "/", home(), { sea: true }) },
-    { path: "stay/index.html", html: shell(pages.stay, "/stay/", stay()) },
-    { path: "gallery/index.html", html: shell(pages.gallery, "/gallery/", gallery()) },
-    { path: "location/index.html", html: shell(pages.location, "/location/", location()) },
-    { path: "faq/index.html", html: shell(pages.faq, "/faq/", faq()) },
-    { path: "guide/index.html", html: shell(pages.guide, "/guide/", guide()) },
-    { path: "contact/index.html", html: shell(pages.contact, "/contact/", contact(), { sea: true }) },
+    { path: "index.html", html: shell(pages.home, "/", home(), { sea: true, analytics }) },
+    { path: "stay/index.html", html: shell(pages.stay, "/stay/", stay(), { sea: true, analytics }) },
+    { path: "gallery/index.html", html: shell(pages.gallery, "/gallery/", gallery(), { sea: true, analytics }) },
+    { path: "location/index.html", html: shell(pages.location, "/location/", location(), { sea: true, analytics }) },
+    { path: "faq/index.html", html: shell(pages.faq, "/faq/", faq(), { sea: true, analytics }) },
+    { path: "guide/index.html", html: shell(pages.guide, "/guide/", guide(), { sea: true, analytics }) },
+    { path: "contact/index.html", html: shell(pages.contact, "/contact/", contact(), { sea: true, analytics }) },
   ];
 }
