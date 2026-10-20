@@ -1,0 +1,1151 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Direct-booking website design shortlist",
+    "description": "100-site research pool and top 30 references for a single-property Guesty-managed direct-booking site.",
+    "generatedAt": "2026-07-11T16:00:00Z",
+    "tables": [
+      {
+        "id": "top30",
+        "title": "Top 30 design references",
+        "subtitle": "Weighted editorial fit for a single-property direct-booking site; 100-point heuristic score.",
+        "dataset": "top30",
+        "sourceId": "research_sources",
+        "columns": [
+          {
+            "field": "rank",
+            "label": "Rank",
+            "type": "number"
+          },
+          {
+            "field": "site",
+            "label": "Website",
+            "type": "text"
+          },
+          {
+            "field": "score",
+            "label": "Fit score",
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "id": "pool100",
+        "title": "100-site research pool",
+        "subtitle": "Candidates assembled from current hospitality and vacation-rental design roundups, deduplicated for this review.",
+        "dataset": "pool100",
+        "sourceId": "research_sources",
+        "columns": [
+          {
+            "field": "candidate",
+            "label": "#",
+            "type": "number"
+          },
+          {
+            "field": "site",
+            "label": "Website",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "charts": [
+      {
+        "id": "top10chart",
+        "title": "Top 10 single-property design-fit scores",
+        "subtitle": "Editorial heuristic, 0–100; reviewed July 11, 2026.",
+        "type": "bar",
+        "dataset": "top10",
+        "sourceId": "research_sources",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "label",
+            "type": "nominal",
+            "label": "Website"
+          },
+          "y": {
+            "field": "score",
+            "type": "quantitative",
+            "label": "Fit score"
+          }
+        }
+      }
+    ],
+    "sources": [
+      {
+        "id": "vr",
+        "label": "https://www.makingthatwebsite.com/vacation-rental-website-design/",
+        "url": "https://www.makingthatwebsite.com/vacation-rental-website-design/"
+      },
+      {
+        "id": "mb",
+        "label": "https://mediaboom.com/news/vacation-rental-website-design/",
+        "url": "https://mediaboom.com/news/vacation-rental-website-design/"
+      },
+      {
+        "id": "hs",
+        "label": "https://blog.hubspot.com/website/hotel-website-examples",
+        "url": "https://blog.hubspot.com/website/hotel-website-examples"
+      },
+      {
+        "id": "tw",
+        "label": "https://tomorrowwebdesign.com/industries/boutique-hotel-website-design/",
+        "url": "https://tomorrowwebdesign.com/industries/boutique-hotel-website-design/"
+      },
+      {
+        "id": "cs",
+        "label": "https://craftedstays.co/portfolio/",
+        "url": "https://craftedstays.co/portfolio/"
+      },
+      {
+        "id": "fs",
+        "label": "https://fullstay.io/examples/",
+        "url": "https://fullstay.io/examples/"
+      },
+      {
+        "id": "research_sources",
+        "label": "Public design roundups and live property websites reviewed July 11, 2026",
+        "url": "https://www.makingthatwebsite.com/vacation-rental-website-design/",
+        "query": {
+          "engine": "manual_editorial_review",
+          "sql": "SELECT * FROM (VALUES ('Indo House St. John', 94), ('Leaping Lamb Farm', 92), ('Independence River Lodge', 91), ('Chalets Hygge', 90), ('Kinross House', 90), ('Eliamos Villas Hotel & Spa', 89), ('Amaris Mykonos', 88), ('Petunia Ibiza', 88), ('The Gage Hotel', 87), ('River Cabaan', 87)) AS reviewed(site, score) ORDER BY score DESC",
+          "description": "Reproduces the reviewed top-10 score rows embedded in this report.",
+          "executed_at": "2026-07-11T16:00:00Z"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "id": "summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n- **The best model is an editorial one-property site, not a miniature OTA.** Indo House St. John, Leaping Lamb Farm, Independence River Lodge, Chalets Hygge, and Kinross House are the strongest overall references.\n- **Design should create desire first and remove doubt immediately after.** A cinematic or exceptional still hero, one visible “Book your stay” action, a compact facts panel, trusted reviews, and a short location story are the most reusable patterns.\n- **Guesty should remain the transaction layer.** The branded site should own discovery and persuasion, then hand dates, availability, price, terms, payment, and reservation completion to Guesty.\n- **The ranking is an editorial fit assessment, not conversion benchmarking.** Public sites do not expose comparable conversion data; scores emphasize transferability to one property."
+      },
+      {
+        "id": "method",
+        "type": "markdown",
+        "body": "## How the shortlist was judged\n\nEach candidate was assessed on six weighted dimensions: visual identity (25%), booking-path clarity (20%), mobile and navigation simplicity (15%), trust and reassurance (15%), property storytelling (15%), and transferability to a one-property Guesty build (10%). The source pool combines vacation-rental roundups, boutique-hotel design roundups, direct-booking portfolios, and live property sites. Large brands were retained as pattern references but generally ranked below focused single-property examples."
+      },
+      {
+        "id": "top_intro",
+        "type": "markdown",
+        "body": "## The top 30 favor focused, emotionally clear sites\n\nThe highest-ranked examples establish a distinct feeling in the first screen, keep choices limited, and make practical information easy to scan. For Central Island Home, the useful lesson is not to imitate a hotel’s feature count; it is to borrow its visual discipline and connect one decisive CTA to Guesty."
+      },
+      {
+        "id": "top_chart",
+        "type": "chart",
+        "chartId": "top10chart"
+      },
+      {
+        "id": "top_table",
+        "type": "table",
+        "tableId": "top30"
+      },
+      {
+        "id": "blueprint",
+        "type": "markdown",
+        "body": "## Recommended blueprint for Central Island Home\n\n1. **Hero:** one exceptional property image or short optimized film, a specific one-line promise, and one primary booking CTA.\n2. **Quick-fit strip:** only facts already approved in `src/content.mjs`; do not invent amenities, beds, occupancy, ratings, distances, policies, or an exact address.\n3. **Stay story:** a short editorial sequence covering the home, the setting, and who the stay is for.\n4. **Photo narrative:** curated groups rather than an undifferentiated gallery.\n5. **Trust layer:** approved reviews or platform proof, host identity, secure-booking language, and transparent handoff to Guesty.\n6. **Local guide:** a small number of genuinely useful recommendations, written in the same voice as the property.\n7. **Guesty handoff:** availability, live pricing, terms, payment, and reservation completion stay in Guesty."
+      },
+      {
+        "id": "next",
+        "type": "markdown",
+        "body": "## Recommended next steps\n\n- Choose one visual direction from the top five rather than blending all 30.\n- Build the homepage around one primary conversion path and one secondary “Explore the stay” path.\n- Prototype the hero, facts strip, gallery rhythm, trust block, and Guesty handoff at 390px first.\n- Validate the final concept against the five project routes and compare settled local and Vercel screenshots at the required viewports before presenting a preview."
+      },
+      {
+        "id": "questions",
+        "type": "markdown",
+        "body": "## Further questions\n\n- Should the brand feel more like warm coastal editorial, quiet luxury, or relaxed family retreat?\n- Is there approved review content that can be used as direct-site proof?\n- Should the first Guesty interaction open availability immediately or after a short property overview?"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveats and assumptions\n\nThe 100-site pool is an inspiration census assembled from current public roundups and property sites, not a statistically representative sample. The fit score is a documented design heuristic; it does not claim access to traffic, revenue, accessibility audits, or conversion rates. Site ownership, design, and availability can change after the review date. Some candidates manage multiple units, but were included when their patterns transfer well to a single property."
+      },
+      {
+        "id": "appendix_intro",
+        "type": "markdown",
+        "body": "## Appendix: all 100 researched candidates\n\nThis appendix preserves the full, deduplicated research pool so the shortlist can be challenged or expanded later."
+      },
+      {
+        "id": "pool_table",
+        "type": "table",
+        "tableId": "pool100"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-07-11T16:00:00Z",
+    "status": "ready",
+    "datasets": {
+      "top10": [
+        {
+          "label": "Indo House",
+          "score": 94
+        },
+        {
+          "label": "Leaping Lamb",
+          "score": 92
+        },
+        {
+          "label": "Independence River",
+          "score": 91
+        },
+        {
+          "label": "Chalets Hygge",
+          "score": 90
+        },
+        {
+          "label": "Kinross House",
+          "score": 90
+        },
+        {
+          "label": "Eliamos Villas",
+          "score": 89
+        }
+      ],
+      "top30": [
+        {
+          "rank": 1,
+          "site": "Indo House St. John",
+          "url": "https://indohousestjohn.com",
+          "score": 94,
+          "fit": "Single villa",
+          "why": "Warm luxury, cinematic storytelling, and an uncluttered booking path.",
+          "borrow": "Use the restrained palette, atmospheric hero, and one-property narrative."
+        },
+        {
+          "rank": 2,
+          "site": "Leaping Lamb Farm",
+          "url": "https://www.leapinglambfarm.com",
+          "score": 92,
+          "fit": "Single farm stay",
+          "why": "Owner story, strong sense of place, and direct booking in a human-scale site.",
+          "borrow": "Make the host story a trust and conversion asset."
+        },
+        {
+          "rank": 3,
+          "site": "Independence River Lodge",
+          "url": "https://independenceriverlodge.com",
+          "score": 91,
+          "fit": "Single lodge",
+          "why": "Video tour, organized room photography, and quick-fit information.",
+          "borrow": "Pair an emotional tour with a compact facts panel."
+        },
+        {
+          "rank": 4,
+          "site": "Chalets Hygge",
+          "url": "https://www.chaletshygge.com",
+          "score": 90,
+          "fit": "Small chalet collection",
+          "why": "Clean Scandinavian styling and highly scannable property pages.",
+          "borrow": "Borrow spacing, calm typography, and logical section order."
+        },
+        {
+          "rank": 5,
+          "site": "Kinross House",
+          "url": "https://www.kinrosshouse.com",
+          "score": 90,
+          "fit": "Single estate",
+          "why": "Understated luxury and an entire-property proposition with little clutter.",
+          "borrow": "A strong model for selling exclusivity without excessive UI."
+        },
+        {
+          "rank": 6,
+          "site": "Eliamos Villas Hotel & Spa",
+          "url": "https://eliamos.com",
+          "score": 89,
+          "fit": "Villa hotel",
+          "why": "Minimal interface, destination-led imagery, and wellness storytelling.",
+          "borrow": "Use image rhythm and short experiential copy, not feature overload."
+        },
+        {
+          "rank": 7,
+          "site": "Amaris Mykonos",
+          "url": "https://www.amarismykonos.com",
+          "score": 88,
+          "fit": "Small villa property",
+          "why": "Minimal design with ratings and testimonials used as visible reassurance.",
+          "borrow": "Place verified trust signals near the booking decision."
+        },
+        {
+          "rank": 8,
+          "site": "Petunia Ibiza",
+          "url": "https://www.petuniaibiza.com",
+          "score": 88,
+          "fit": "Boutique hotel",
+          "why": "Availability appears early while immersive Mediterranean visuals maintain desire.",
+          "borrow": "Combine immediate date selection with a premium visual world."
+        },
+        {
+          "rank": 9,
+          "site": "The Gage Hotel",
+          "url": "https://gagehotel.com",
+          "score": 87,
+          "fit": "Independent hotel",
+          "why": "Minimal design anchored in the surrounding destination.",
+          "borrow": "Sell the location and nearby experience as part of the property."
+        },
+        {
+          "rank": 10,
+          "site": "River Cabaan",
+          "url": "https://www.rivercabaan.com",
+          "score": 87,
+          "fit": "Single rental",
+          "why": "Nature-first presentation for one distinctive riverside stay.",
+          "borrow": "Let the unique setting carry the homepage story."
+        },
+        {
+          "rank": 11,
+          "site": "Sadewa Villa",
+          "url": "https://sadewavilla.com",
+          "score": 86,
+          "fit": "Single villa",
+          "why": "Clean, elegant presentation with a focused luxury-residence proposition.",
+          "borrow": "Keep navigation shallow and photography dominant."
+        },
+        {
+          "rank": 12,
+          "site": "Lewa House",
+          "url": "https://lewahouse.com",
+          "score": 86,
+          "fit": "Single lodge",
+          "why": "Film-led narrative and a direct exploratory call to action.",
+          "borrow": "Use motion only when it deepens the property story."
+        },
+        {
+          "rank": 13,
+          "site": "Samsara Ubud",
+          "url": "https://www.samsaraubud.com",
+          "score": 85,
+          "fit": "Boutique resort",
+          "why": "A single positioning idea—reconnect with nature—guides every visual.",
+          "borrow": "Choose one emotional promise and repeat it consistently."
+        },
+        {
+          "rank": 14,
+          "site": "Amigo Motor Lodge",
+          "url": "https://www.amigomotorlodge.com",
+          "score": 85,
+          "fit": "Independent lodge",
+          "why": "Cozy imagery and social proof extend the brand without a corporate feel.",
+          "borrow": "Use selective social content as fresh proof, not a distracting feed."
+        },
+        {
+          "rank": 15,
+          "site": "The Lisboans",
+          "url": "https://www.thelisboans.com",
+          "score": 84,
+          "fit": "Serviced apartments",
+          "why": "Strong editorial identity and a memorable building story.",
+          "borrow": "Translate the property history into brand texture."
+        },
+        {
+          "rank": 16,
+          "site": "Al Moudira",
+          "url": "https://moudira.com",
+          "score": 84,
+          "fit": "Independent hotel",
+          "why": "Cultural immersion and activities make the stay feel larger than the room.",
+          "borrow": "Build a compact local guide that reinforces the booking decision."
+        },
+        {
+          "rank": 17,
+          "site": "Rita Izumo Hirata",
+          "url": "https://rita-izumo-hirata.jp",
+          "score": 83,
+          "fit": "Small heritage stay",
+          "why": "Minimal interface balances local tradition and modern presentation.",
+          "borrow": "Use cultural detail with disciplined typography and whitespace."
+        },
+        {
+          "rank": 18,
+          "site": "The Drifter Hotel",
+          "url": "https://thedrifterhotel.com",
+          "score": 83,
+          "fit": "Independent hotel",
+          "why": "Distinctive voice and a rebellious, memorable positioning line.",
+          "borrow": "Write a clear personality into the hero instead of generic welcome copy."
+        },
+        {
+          "rank": 19,
+          "site": "Hotel Paradiso Grottammare",
+          "url": "https://paradisogrottammare.it",
+          "score": 82,
+          "fit": "Independent hotel",
+          "why": "Compact one-page flow with an obvious reservation action.",
+          "borrow": "A strong structural reference for a one-property MVP."
+        },
+        {
+          "rank": 20,
+          "site": "Xigera",
+          "url": "https://xigera.com",
+          "score": 82,
+          "fit": "Single safari lodge",
+          "why": "Editorial storytelling gives the property a strong sense of legacy and place.",
+          "borrow": "Use long-form story selectively below a decisive booking hero."
+        },
+        {
+          "rank": 21,
+          "site": "BluEscape Poipu",
+          "url": "https://www.bluescapepoipu.com",
+          "score": 81,
+          "fit": "Vacation rental",
+          "why": "Beach-specific visual language and a focused escape proposition.",
+          "borrow": "Match palette and copy to the exact destination mood."
+        },
+        {
+          "rank": 22,
+          "site": "Tailwaters Lodge",
+          "url": "https://www.tailwaterslodge.com",
+          "score": 81,
+          "fit": "Single lodge",
+          "why": "The property and its core activities are presented as one package.",
+          "borrow": "Lead with the strongest reason to choose this stay."
+        },
+        {
+          "rank": 23,
+          "site": "Teranga Lodges",
+          "url": "https://www.terangalodges.com",
+          "score": 80,
+          "fit": "Small lodge collection",
+          "why": "FAQ content lowers uncertainty for an unfamiliar lodging format.",
+          "borrow": "Put high-friction questions near the decision path."
+        },
+        {
+          "rank": 24,
+          "site": "Maison Mastrorelli",
+          "url": "https://www.maisonmastrorelli.com",
+          "score": 80,
+          "fit": "Small property",
+          "why": "Different spaces are clearly differentiated through imagery and narrative.",
+          "borrow": "Explain how each part of the home supports the stay."
+        },
+        {
+          "rank": 25,
+          "site": "Landa",
+          "url": "https://www.landa.as",
+          "score": 79,
+          "fit": "Independent hotel",
+          "why": "Memorable motion and visual reveals create a premium first impression.",
+          "borrow": "Borrow the confidence and pacing, but reduce animation for speed."
+        },
+        {
+          "rank": 26,
+          "site": "Silena",
+          "url": "https://www.silena.com",
+          "score": 79,
+          "fit": "Independent hotel",
+          "why": "Cultural storytelling turns the property into an experience gateway.",
+          "borrow": "Use local culture to differentiate beyond amenities."
+        },
+        {
+          "rank": 27,
+          "site": "The Wallace",
+          "url": "https://thewallace.com",
+          "score": 78,
+          "fit": "Independent hotel",
+          "why": "Neighborhood framing makes location part of the product.",
+          "borrow": "Create a concise area section with strong editorial photography."
+        },
+        {
+          "rank": 28,
+          "site": "Tsugito",
+          "url": "https://tsugito.co.jp",
+          "score": 78,
+          "fit": "Small heritage property",
+          "why": "Philosophy, team, amenities, and contact form a coherent compact story.",
+          "borrow": "Show the people behind the stay to establish legitimacy."
+        },
+        {
+          "rank": 29,
+          "site": "Sana Resorts",
+          "url": "https://sana-resorts.com",
+          "score": 77,
+          "fit": "Cabin resort",
+          "why": "Clean image transitions create immersion around cabins and landscape.",
+          "borrow": "Use lightweight transitions and preserve fast loading."
+        },
+        {
+          "rank": 30,
+          "site": "Hotel & Spa Resort Kaskady",
+          "url": "https://www.resortkaskady.com",
+          "score": 76,
+          "fit": "Resort",
+          "why": "Clear navigation and high-quality visual hierarchy make exploration easy.",
+          "borrow": "Borrow hierarchy, not the resort-scale information volume."
+        }
+      ],
+      "pool100": [
+        {
+          "candidate": 1,
+          "site": "Indo House St. John",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 2,
+          "site": "Leaping Lamb Farm",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 3,
+          "site": "Independence River Lodge",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 4,
+          "site": "Chalets Hygge",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 5,
+          "site": "Kinross House",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 6,
+          "site": "Eliamos Villas Hotel & Spa",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 7,
+          "site": "Amaris Mykonos",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 8,
+          "site": "Petunia Ibiza",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 9,
+          "site": "The Gage Hotel",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 10,
+          "site": "River Cabaan",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 11,
+          "site": "Sadewa Villa",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 12,
+          "site": "Lewa House",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 13,
+          "site": "Samsara Ubud",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 14,
+          "site": "Amigo Motor Lodge",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 15,
+          "site": "The Lisboans",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 16,
+          "site": "Al Moudira",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 17,
+          "site": "Rita Izumo Hirata",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 18,
+          "site": "The Drifter Hotel",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 19,
+          "site": "Hotel Paradiso Grottammare",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 20,
+          "site": "Xigera",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 21,
+          "site": "BluEscape Poipu",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 22,
+          "site": "Tailwaters Lodge",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 23,
+          "site": "Teranga Lodges",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 24,
+          "site": "Maison Mastrorelli",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 25,
+          "site": "Landa",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 26,
+          "site": "Silena",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 27,
+          "site": "The Wallace",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 28,
+          "site": "Tsugito",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 29,
+          "site": "Sana Resorts",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 30,
+          "site": "Hotel & Spa Resort Kaskady",
+          "shortlisted": "Top 30",
+          "source": "Editorial review + cited roundups"
+        },
+        {
+          "candidate": 31,
+          "site": "Yllas Villas",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 32,
+          "site": "Cannon Woods",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 33,
+          "site": "Island Dreams",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 34,
+          "site": "Santorini Rentals",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 35,
+          "site": "The Warren House",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 36,
+          "site": "La Ferme Medina",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 37,
+          "site": "LVH Global",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 38,
+          "site": "TravelStaytion",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 39,
+          "site": "Smiling House",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 40,
+          "site": "El Encanto Villas",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 41,
+          "site": "All Luxury Apartments",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 42,
+          "site": "Into the Wild Escapes",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 43,
+          "site": "Ace Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 44,
+          "site": "The Hoxton",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 45,
+          "site": "21c Museum Hotels",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 46,
+          "site": "The Line Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 47,
+          "site": "Mama Shelter",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 48,
+          "site": "CitizenM",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 49,
+          "site": "Hotel Indigo",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 50,
+          "site": "The Dean Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 51,
+          "site": "The Drake Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 52,
+          "site": "The NoMad Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 53,
+          "site": "W15 Collection",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 54,
+          "site": "Swiss Deluxe Hotels",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 55,
+          "site": "Hotel Paradiso",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 56,
+          "site": "Napa Valley Lodge",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 57,
+          "site": "Attitude Hotels",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 58,
+          "site": "Le Crans Hotel & Spa",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 59,
+          "site": "The Corner Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 60,
+          "site": "K11 Artus",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 61,
+          "site": "Hotel Atlantida",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 62,
+          "site": "Semi Permanent Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 63,
+          "site": "Winyah Bay Club",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 64,
+          "site": "Copper Ground Homes",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 65,
+          "site": "Coastal Peaks Vacation Rentals",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 66,
+          "site": "Travel Keys",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 67,
+          "site": "OneFineStay",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 68,
+          "site": "Plum Guide",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 69,
+          "site": "Sonder",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 70,
+          "site": "AvantStay",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 71,
+          "site": "Top Villas",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 72,
+          "site": "Oliver’s Travels",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 73,
+          "site": "The Thinking Traveller",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 74,
+          "site": "Inspirato",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 75,
+          "site": "Stay One Degree",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 76,
+          "site": "Villas of Distinction",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 77,
+          "site": "Natural Retreats",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 78,
+          "site": "Cuvée",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 79,
+          "site": "Welcome Beyond",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 80,
+          "site": "BoutiqueHomes",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 81,
+          "site": "Canopy & Stars",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 82,
+          "site": "Unyoked",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 83,
+          "site": "Getaway House",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 84,
+          "site": "AutoCamp",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 85,
+          "site": "Dunton Hot Springs",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 86,
+          "site": "Fogo Island Inn",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 87,
+          "site": "The Local House",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 88,
+          "site": "Whitepod",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 89,
+          "site": "Arctic TreeHouse Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 90,
+          "site": "Longitude 131",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 91,
+          "site": "El Cosmico",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 92,
+          "site": "Post Ranch Inn",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 93,
+          "site": "Habitas Tulum",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 94,
+          "site": "Kisawa Sanctuary",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 95,
+          "site": "The Brando",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 96,
+          "site": "Casa Cook",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 97,
+          "site": "Ett Hem",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 98,
+          "site": "The Audo",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 99,
+          "site": "Hotel Sanders",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        },
+        {
+          "candidate": 100,
+          "site": "The Siren Hotel",
+          "shortlisted": "Research pool",
+          "source": "Cited design roundups"
+        }
+      ]
+    },
+    "accessIssues": []
+  },
+  "sources": [
+    {
+      "id": "vr",
+      "document": {
+        "title": "vr",
+        "url": "https://www.makingthatwebsite.com/vacation-rental-website-design/",
+        "accessed_at": "2026-07-11T16:00:00Z"
+      }
+    },
+    {
+      "id": "mb",
+      "document": {
+        "title": "mb",
+        "url": "https://mediaboom.com/news/vacation-rental-website-design/",
+        "accessed_at": "2026-07-11T16:00:00Z"
+      }
+    },
+    {
+      "id": "hs",
+      "document": {
+        "title": "hs",
+        "url": "https://blog.hubspot.com/website/hotel-website-examples",
+        "accessed_at": "2026-07-11T16:00:00Z"
+      }
+    },
+    {
+      "id": "tw",
+      "document": {
+        "title": "tw",
+        "url": "https://tomorrowwebdesign.com/industries/boutique-hotel-website-design/",
+        "accessed_at": "2026-07-11T16:00:00Z"
+      }
+    },
+    {
+      "id": "cs",
+      "document": {
+        "title": "cs",
+        "url": "https://craftedstays.co/portfolio/",
+        "accessed_at": "2026-07-11T16:00:00Z"
+      }
+    },
+    {
+      "id": "fs",
+      "document": {
+        "title": "fs",
+        "url": "https://fullstay.io/examples/",
+        "accessed_at": "2026-07-11T16:00:00Z"
+      }
+    },
+    {
+      "id": "research_sources",
+      "document": {
+        "title": "Combined web research set",
+        "url": "https://www.makingthatwebsite.com/vacation-rental-website-design/",
+        "accessed_at": "2026-07-11T16:00:00Z"
+      }
+    }
+  ],
+  "package_info": {
+    "originUrl": "artifact://direct-booking-design-shortlist",
+    "controls": {
+      "edit": false,
+      "refresh": false
+    }
+  }
+}
