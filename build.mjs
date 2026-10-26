@@ -5,11 +5,17 @@ import { generated, photos, site } from "./src/content.mjs";
 import { renderPages } from "./src/templates.mjs";
 
 const out = "dist";
+const analytics = {
+  measurementId: process.env.GA_MEASUREMENT_ID || "",
+  enableVercelFallback: process.env.VERCEL_ANALYTICS === "true" || process.env.VERCEL_ANALYTICS === "1" || process.env.VERCEL === "1",
+};
+
 await rm(out, { recursive: true, force: true });
 await mkdir(join(out, "assets", "images"), { recursive: true });
 await mkdir(join(out, "assets", "fonts"), { recursive: true });
 
-for (const page of renderPages()) {
+const generatedPages = renderPages(analytics);
+for (const page of generatedPages) {
   const destination = join(out, page.path);
   await mkdir(dirname(destination), { recursive: true });
   await writeFile(destination, page.html);
@@ -34,7 +40,7 @@ for (const photo of [...photos, ...generated]) {
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#0b7c96"/><path d="M9 37c12-16 23 13 46-10-8 18-27 25-46 10Z" fill="#a9f0e9"/><circle cx="46" cy="17" r="7" fill="#ff6a52"/></svg>`;
 await writeFile(join(out, "assets", "favicon.svg"), favicon);
 await writeFile(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
-await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/", "/stay/", "/gallery/", "/location/", "/faq/", "/guide/"].map((path) => `<url><loc>${site.domain}${path}</loc></url>`).join("")}</urlset>`);
+await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/", "/stay/", "/gallery/", "/location/", "/faq/", "/contact/", "/guide/"].map((path) => `<url><loc>${site.domain}${path}</loc></url>`).join("")}</urlset>`);
 await writeFile(join(out, "404.html"), `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="stylesheet" href="/assets/styles.css"><title>Page not found | Central Island Home</title><body class="page-sand"><main class="page-intro" id="main" style="padding:20vh 8vw"><p class="eyebrow">Lost at sea</p><h1>This page drifted out of view.</h1><p><a class="button" href="/">Return home</a></p></main></body></html>`);
 
-console.log(`Built ${renderPages().length} routes with ${(photos.length + generated.length) * 9} responsive image assets.`);
+console.log(`Built ${generatedPages.length} routes with ${(photos.length + generated.length) * 9} responsive image assets.`);

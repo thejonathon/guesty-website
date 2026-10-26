@@ -1,5 +1,47 @@
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
+const trackAnalyticsEvent = (name, params = {}) => {
+  if (!name) return;
+  const eventParams = { ...params, transport_type: "beacon" };
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, eventParams);
+    return;
+  }
+  if (Array.isArray(window.dataLayer)) {
+    window.dataLayer.push({ event: name, ...eventParams });
+  }
+};
+
+document.addEventListener("click", (event) => {
+  const anchor = event.target.closest("a[data-analytics-event], button[data-analytics-event]");
+  if (!anchor || !document.body.contains(anchor)) return;
+
+  const eventName = anchor.dataset.analyticsEvent;
+  if (!eventName) return;
+
+  const eventCategory = eventName.startsWith("booking_")
+    ? "booking"
+    : eventName.startsWith("contact_")
+      ? "contact"
+      : "engagement";
+
+  trackAnalyticsEvent(eventName, {
+    event_category: eventCategory,
+    event_label: anchor.dataset.analyticsLabel || "tracked_link",
+    link_location: anchor.dataset.analyticsLocation || "unknown",
+    link_url: anchor.getAttribute("href") || "",
+    link_text: anchor.textContent?.trim() || "",
+  });
+});
+
+const trackContactError = (type, details = {}) => {
+  trackAnalyticsEvent("contact_form_validation_error", {
+    event_category: "contact",
+    error_type: type,
+    ...details,
+  });
+};
+
 for (const line of document.querySelectorAll("[data-photo-line]")) {
   const rail = line.querySelector(".photo-rail");
   const items = [...line.querySelectorAll("[data-gallery-item]")];
@@ -135,4 +177,66 @@ if (!reducedMotion.matches && "IntersectionObserver" in window) {
     }
   }, { rootMargin: "0px 0px -8%" });
   for (const el of reveals) { el.classList.add("io-pending"); io.observe(el); }
+}
+
+// Contact form — validates, then opens mailto to the host email
+const contactForm = document.getElementById("contact-form");
+if (contactForm) {
+  const captchaQuestion = document.getElementById("captcha-question");
+  const captchaInput = document.getElementById("contact-captcha");
+  const statusBanner = document.getElementById("form-status");
+  const hostEmail = "thejonathontaylor@gmail.com";
+
+  let num1 = Math.floor(Math.random() * 8) + 2;
+  let num2 = Math.floor(Math.random() * 8) + 1;
+  let expectedAnswer = num1 + num2;
+
+  if (captchaQuestion) {
+    captchaQuestion.textContent = `${num1} + ${num2} = ?`;
+  }
+
+  const refreshCaptcha = () => {
+    num1 = Math.floor(Math.random() * 8) + 2;
+    num2 = Math.floor(Math.random() * 8) + 1;
+    expectedAnswer = num1 + num2;
+    if (captchaQuestion) captchaQuestion.textContent = `${num1} + ${num2} = ?`;
+  };
+
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    const captchaValue = parseInt((formData.get("captcha") || "").toString().trim(), 10);
+
+    if (captchaValue !== expectedAnswer) {
+      trackContactError("captcha_mismatch", { event_label: "captcha_invalid" });
+      statusBanner.className = "form-status error";
+      statusBanner.textContent = "Security challenge incorrect. Please double-check the math answer.";
+      captchaInput?.focus();
+      return;
+    }
+
+    if (!contactForm.checkValidity()) {
+      trackContactError("validation_failed", { event_label: "required_fields" });
+      statusBanner.className = "form-status error";
+      statusBanner.textContent = "Please fill out all required fields with valid values.";
+      contactForm.reportValidity();
+      return;
+    }
+
+    const name = (formData.get("name") || "").toString().trim();
+    const email = (formData.get("email") || "").toString().trim();
+    const phone = (formData.get("phone") || "").toString().trim();
+    const message = (formData.get("message") || "").toString().trim();
+    const subject = encodeURIComponent(`Central Island Home inquiry from ${name}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nPhone: ${phone || "(not provided)"}\n\n${message}`,
+    );
+
+    trackAnalyticsEvent("contact_form_submit", { event_category: "contact", event_label: "mailto_open" });
+    statusBanner.className = "form-status success";
+    statusBanner.textContent = "Opening your email app to send the message.";
+    window.location.href = `mailto:${hostEmail}?subject=${subject}&body=${body}`;
+    contactForm.reset();
+    refreshCaptcha();
+  });
 }

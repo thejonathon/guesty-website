@@ -1,7 +1,32 @@
 import { pages, photos, site } from "./content.mjs";
 
 const photo = Object.fromEntries(photos.map((p) => [p.id, p]));
-const navRoutes = [pages.home, pages.stay, pages.gallery, pages.location, pages.faq, pages.guide];
+const navRoutes = [pages.home, pages.stay, pages.gallery, pages.location, pages.faq, pages.contact, pages.guide];
+
+function analyticsHeadSnippet({ measurementId = "", enableVercelFallback = false } = {}) {
+  const escapedId = measurementId.replace(/[^A-Za-z0-9-]/g, "");
+  const ga = measurementId && escapedId ? escapedId : "";
+  const vercelFallback = enableVercelFallback
+    ? `<script defer src="/_vercel/insights/script.js"></script>`
+    : "";
+  if (!ga && !enableVercelFallback) return "";
+
+  const gtag = ga
+    ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${ga}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "${ga}", { send_page_view: true });
+</script>`
+    : "";
+
+  return `${gtag}${vercelFallback}`;
+}
+
+function analyticsAttrs(label, location = "page") {
+  return ` data-analytics-event="booking_cta_click" data-analytics-label="${label}" data-analytics-location="${location}"`;
+}
 
 function nav(active) {
   const links = navRoutes.map((page) => {
@@ -11,7 +36,7 @@ function nav(active) {
   return `<header class="site-header" data-header>
     <a class="brand" href="/" aria-label="Central Island Home, home"><span>Central Island</span><em>Home</em></a>
     <nav aria-label="Primary"><ul>${links}</ul></nav>
-    <a class="button button-coral button-small" href="${site.bookingUrl}">Book</a>
+    <a class="button button-coral button-small" href="${site.bookingUrl}"${analyticsAttrs("header_book", "header")}>Book</a>
   </header>`;
 }
 
@@ -34,10 +59,10 @@ function bookingBand(id = "booking", { glass = false } = {}) {
       <div class="booking-widget-shell">
         <div id="search-widget_IO312PWQ" data-guesty-widget aria-label="Guesty availability search"></div>
         <div class="calendar-frame">
-          <iframe data-src="https://${site.guestySiteUrl}/en/properties" title="Guesty live availability calendar and booking" loading="lazy"></iframe>
+          <iframe data-src="${site.bookingUrl}" title="Guesty live availability calendar and booking" loading="lazy"></iframe>
         </div>
-        <p class="booking-fallback">Prefer a full page? <a href="${site.bookingUrl}">Open the booking calendar on Guesty</a>.</p>
-        <noscript><p><a class="button" href="${site.bookingUrl}">Check availability on Guesty</a></p></noscript>
+        <p class="booking-fallback">Prefer a full page? <a href="${site.bookingUrl}"${analyticsAttrs("booking_band_fallback", "booking_band")}>Open the booking calendar on Guesty</a>.</p>
+        <noscript><p><a class="button" href="${site.bookingUrl}"${analyticsAttrs("booking_band_fallback_noscript", "booking_band")}>Check availability on Guesty</a></p></noscript>
       </div>
     </div>
   </section>`;
@@ -75,7 +100,7 @@ function home() {
       <p class="eyebrow">${page.eyebrow}</p>
       <h1><span class="hero-line"><span>Come home to</span></span><span class="hero-line"><span>the <em>slower side</em></span></span><span class="hero-line"><span>of the coast.</span></span></h1>
       <p class="lede">${page.intro}</p>
-      <div class="actions"><a class="button" href="#booking">Check availability</a><a class="button button-outline" href="/stay/">Step inside</a></div>
+      <div class="actions"><a class="button" href="#booking"${analyticsAttrs("home_hero", "home_hero")}>Check availability</a><a class="button button-outline" href="/stay/">Step inside</a></div>
       <p class="scroll-cue" aria-hidden="true">Descend</p>
     </section>
     <section class="sea-section reveal" aria-labelledby="stay-title">
@@ -96,6 +121,11 @@ function home() {
       <section class="editorial-split reveal">
         <div><p class="eyebrow">Outside</p><h2>The backyard keeps its own schedule.</h2></div>
         <div><p>A fire pit, a grill patio with its own television, an outdoor shower for sandy feet, and a long lawn under mature trees. The best room in the house isn’t in the house.</p><a class="text-link" href="/gallery/">See the outdoors <span aria-hidden="true">→</span></a></div>
+      </section>
+      <section class="host-note reveal" aria-labelledby="host-title">
+        <p class="eyebrow">Your host</p>
+        <h2 id="host-title">Hosted by ${site.hostName}.</h2>
+        <p>Availability, pricing, and reservation terms stay with Guesty. For a direct question about the stay, <a href="/contact/">reach out on the contact page</a> or email <a href="mailto:${site.email}">${site.email}</a>.</p>
       </section>
       <section class="location-teaser reveal"><p class="eyebrow">Plan the days</p><h2>Keep Charleston at the center of the story.</h2><p>We protect the home’s exact location while giving you a thoughtful starting point for the wider Charleston area.</p><a class="button button-outline" href="/location/">Plan your stay</a></section>
     </div>
@@ -129,12 +159,13 @@ function location() {
 function faq() {
   const page = pages.faq;
   const faqs = [
-    ["How do I check availability?", `Use the booking section on this site or continue to <a href="${site.bookingUrl}">Guesty</a> for current dates.`],
+    ["How do I check availability?", `Use the booking section on this site or continue to <a href="${site.bookingUrl}"${analyticsAttrs("faq_booking", "faq")}>Guesty</a> for current dates.`],
     ["Where will I see pricing?", "Guesty shows current pricing during the date and guest search."],
-    ["Where can I review reservation terms?", `Review the <a href="${site.bookingUrl}/terms">current Guesty terms</a> during your booking journey.`],
+    ["Where can I review reservation terms?", `Review the <a href="${site.termsUrl}"${analyticsAttrs("faq_terms", "faq")}>current Guesty terms</a> during your booking journey.`],
     ["Why is the exact address not shown here?", "The public site protects the property’s precise location. Confirmed arrival information is shared through the reservation process."],
+    ["Where are amenities and guest reviews listed?", "Amenity lists, ratings, and guest reviews stay with Guesty so they remain current with the live listing. This site does not invent or mirror those details."],
     ["Are the photographs real?", "Yes. Every property photograph on this site is a real image of Central Island Home. The only AI-generated imagery is the decorative ocean water and sand textures — and those are labeled in the maker's guide."],
-    ["How can I ask another question?", `Email <a href="mailto:${site.email}">${site.email}</a> or use the contact details provided by Guesty.`],
+    ["How can I ask another question?", `Use the <a href="/contact/">contact page</a>, email <a href="mailto:${site.email}">${site.email}</a>, or the contact details provided by Guesty.`],
   ];
   return `<main id="main" tabindex="-1">${intro(page)}<section class="faq-layout reveal"><div><p class="eyebrow">Useful details</p><h2>Verified guidance, without guesswork.</h2></div><div class="faq-list">${faqs.map(([q, a]) => `<details><summary>${q}</summary><div><p>${a}</p></div></details>`).join("")}</div></section>${bookingBand("booking")}</main>`;
 }
@@ -202,24 +233,68 @@ gl_FragColor = vec4(col, alpha);</code></pre>
   ${bookingBand("booking")}</main>`;
 }
 
+function contact() {
+  const page = pages.contact;
+  return `<main id="main" tabindex="-1">${intro(page)}
+    <section class="contact-section reveal" id="contact" aria-labelledby="contact-title">
+      <div class="contact-card">
+        <header>
+          <p class="eyebrow">Direct note</p>
+          <h2 id="contact-title">Write ${site.hostName}</h2>
+          <p>Messages open in your email app addressed to <a href="mailto:${site.email}">${site.email}</a>. Reservation changes and payments stay on Guesty.</p>
+        </header>
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="contact-name">Name *</label>
+              <input type="text" id="contact-name" name="name" required placeholder="Your full name" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="contact-email">Email *</label>
+              <input type="email" id="contact-email" name="email" required placeholder="you@example.com" autocomplete="email">
+            </div>
+          </div>
+          <div class="field">
+            <label for="contact-phone">Phone Number</label>
+            <input type="tel" id="contact-phone" name="phone" placeholder="(555) 000-0000" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="contact-message">Message *</label>
+            <textarea id="contact-message" name="message" required placeholder="Tell us about your upcoming trip or ask any questions..."></textarea>
+          </div>
+          <div class="captcha-box">
+            <label for="contact-captcha">Security Challenge: <strong id="captcha-question">5 + 3 = ?</strong> *</label>
+            <input type="text" id="contact-captcha" name="captcha" required placeholder="Answer" autocomplete="off" inputmode="numeric">
+          </div>
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+          <button type="submit" class="button button-coral">Open email to send</button>
+        </form>
+      </div>
+    </section>
+    ${bookingBand("booking")}
+  </main>`;
+}
+
 function schema() {
   return JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: site.domain, description: pages.home.description });
 }
 
-function shell(page, active, body, { sea = false } = {}) {
+function shell(page, active, body, { sea = false, analytics = {} } = {}) {
   const oceanScripts = sea
     ? `<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script type="module" src="/assets/ocean.js"></script>`
     : "";
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${sea ? "#0b7c96" : "#f6eedd"}"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script><script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="${sea ? "page-sea" : "page-sand"}"><a class="skip-link" href="#main">Skip to main content</a>${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="/faq/">Booking questions</a><a href="${site.bookingUrl}">Guesty booking</a><a href="/guide/">How this was built</a><a href="mailto:${site.email}">Email</a></div><p class="credit">Designed &amp; built by Claude (Fable 5) · <a href="/guide/">read the maker’s guide</a></p></footer></body></html>`;
+  const analyticsHead = analyticsHeadSnippet(analytics);
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${sea ? "#0b7c96" : "#f6eedd"}"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script>${analyticsHead}<script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="${sea ? "page-sea" : "page-sand"}"><a class="skip-link" href="#main">Skip to main content</a>${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="/faq/">Booking questions</a><a href="${site.bookingUrl}"${analyticsAttrs("footer_booking", "footer")}>Guesty booking</a><a href="/contact/">Contact</a><a href="/guide/">How this was built</a><a href="mailto:${site.email}">Email</a></div><p class="credit">Designed &amp; built by Claude (Fable 5) · <a href="/guide/">read the maker’s guide</a></p></footer></body></html>`;
 }
 
-export function renderPages() {
+export function renderPages(analytics = {}) {
   return [
-    { path: "index.html", html: shell(pages.home, "/", home(), { sea: true }) },
-    { path: "stay/index.html", html: shell(pages.stay, "/stay/", stay()) },
-    { path: "gallery/index.html", html: shell(pages.gallery, "/gallery/", gallery()) },
-    { path: "location/index.html", html: shell(pages.location, "/location/", location()) },
-    { path: "faq/index.html", html: shell(pages.faq, "/faq/", faq()) },
-    { path: "guide/index.html", html: shell(pages.guide, "/guide/", guide()) },
+    { path: "index.html", html: shell(pages.home, "/", home(), { sea: true, analytics }) },
+    { path: "stay/index.html", html: shell(pages.stay, "/stay/", stay(), { analytics }) },
+    { path: "gallery/index.html", html: shell(pages.gallery, "/gallery/", gallery(), { analytics }) },
+    { path: "location/index.html", html: shell(pages.location, "/location/", location(), { analytics }) },
+    { path: "faq/index.html", html: shell(pages.faq, "/faq/", faq(), { analytics }) },
+    { path: "contact/index.html", html: shell(pages.contact, "/contact/", contact(), { analytics }) },
+    { path: "guide/index.html", html: shell(pages.guide, "/guide/", guide(), { analytics }) },
   ];
 }

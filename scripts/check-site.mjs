@@ -2,7 +2,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { generated, photos } from "../src/content.mjs";
 
-const routes = ["index.html", "stay/index.html", "gallery/index.html", "location/index.html", "faq/index.html", "guide/index.html"];
+const routes = ["index.html", "stay/index.html", "gallery/index.html", "location/index.html", "faq/index.html", "contact/index.html", "guide/index.html"];
 const failures = [];
 for (const route of routes) {
   const path = join("dist", route);
@@ -13,6 +13,7 @@ for (const route of routes) {
     ["skip link", /class="skip-link"/], ["main", /<main id="main" tabindex="-1">/], ["h1", /<h1>.+<\/h1>/],
     ["footer", /<footer>/], ["Guesty fallback", /jtaylormade\.guestybookings\.com\/en/],
   ]) if (!pattern.test(html)) failures.push(`${route}: missing ${label}`);
+  if (route === "contact/index.html" && !/id="contact-form"/.test(html)) failures.push(`${route}: missing contact form`);
   for (const img of html.matchAll(/<img\s+([^>]+)>/g)) {
     if (!/alt="[^"]*"/.test(img[1])) failures.push(`${route}: image missing alt`);
     if (!/width="\d+"/.test(img[1]) || !/height="\d+"/.test(img[1])) failures.push(`${route}: image missing dimensions`);
