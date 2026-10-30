@@ -1,21 +1,24 @@
 export const site = {
   name: "Central Island Home",
   domain: "https://centralislandhome.com",
-  bookingUrl: "https://jtaylormade.guestybookings.com/en",
+  bookingUrl: "https://jtaylormade.guestybookings.com/en/properties/6752a56cfde24c00118255ec",
   guestySiteUrl: "jtaylormade.guestybookings.com",
+  termsUrl: "https://jtaylormade.guestybookings.com/en/terms",
   email: "thejonathontaylor@gmail.com",
+  hostName: "Jonathon Taylor",
 };
 
 export const photos = [
   { id: "living-overview", source: "photos/hero-1-exterior.jpg", alt: "Open-plan living room with seating, television, and bar", caption: "Room to gather, settle in, and stay awhile." },
   { id: "bright-bedroom", source: "photos/hero-2-bedroom-king.jpg", alt: "Bright bedroom with a large bed and glass doors", caption: "A bright sleeping space opening toward the garden." },
   { id: "kitchen-living", source: "photos/hero-3-living.jpg", alt: "Open kitchen and living area with island seating", caption: "The kitchen and living room share one easy, social space." },
-  { id: "bar-tv", source: "photos/hero-4-kitchen.jpg", alt: "Interior bar seating with a wall-mounted television", caption: "An indoor bar for unhurried evenings at home." },
-  { id: "bar-patio", source: "photos/hero-5-backyard.jpg", alt: "Interior bar beside glass patio doors", caption: "Inside comfort with a glimpse toward the patio." },
+  { id: "bar-tv", source: "photos/hero-4-kitchen.jpg", alt: "Living area television wall beside the indoor bar", caption: "An indoor bar for unhurried evenings at home." },
+  { id: "bar-patio", source: "photos/hero-5-backyard.jpg", alt: "Indoor wooden bar beside sliding glass doors to the patio", caption: "Inside comfort with a glimpse toward the patio." },
   { id: "two-beds", source: "photos/bedroom-2-singles.jpg", alt: "Bedroom furnished with two separate beds", caption: "A flexible bedroom with two separate beds." },
   { id: "large-bed", source: "photos/bedroom-3-queen.jpg", alt: "Bedroom furnished with a large bed", caption: "A calm room anchored by a generous bed." },
   { id: "backyard-wide", source: "photos/album/album-22.jpg", alt: "Wide back lawn with mature trees behind the house", caption: "A generous back lawn beneath mature trees." },
   { id: "rear-deck", source: "photos/album/album-25.jpg", alt: "Rear deck with wooden chairs beside the house under a blue sky", caption: "Morning coffee on the back deck." },
+  { id: "deck-seating", source: "photos/album/album-09.jpg", alt: "Wooden rear deck with three chairs, a low table, and string lights under the eaves", caption: "Deck chairs waiting under the string lights." },
   { id: "fire-pit", source: "photos/album/album-04.jpg", alt: "Stone fire pit on a paver patio behind the house at golden hour", caption: "Evenings gather around the fire pit." },
   { id: "patio-dining", source: "photos/album/album-19.jpg", alt: "High-top patio table for four under a shade sail with string lights", caption: "Dinner outside, under sail and string lights." },
   { id: "grill-patio", source: "photos/album/album-17.jpg", alt: "Covered patio with a gas grill and wall-mounted television", caption: "A covered grill patio for slow afternoons." },
@@ -84,5 +87,13 @@ export const pages = {
     eyebrow: "The maker's guide",
     heading: "How the water got into the website.",
     intro: "Everything on this site — the transparent turquoise sea, the glass calendar, the type, the textures — was designed and built by Claude (Fable 5). Here is exactly how, so you can do it too.",
+  },
+  contact: {
+    path: "/contact/",
+    title: "Contact | Central Island Home",
+    description: "Reach Jonathon Taylor about Central Island Home, or continue to Guesty for booking questions tied to a reservation.",
+    eyebrow: "Get in touch",
+    heading: "Questions about the stay?",
+    intro: "For booking dates, pricing, and reservation terms, Guesty remains the source of truth. For a direct note to the host, use the form or email below.",
   },
 };
