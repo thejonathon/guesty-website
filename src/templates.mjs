@@ -48,7 +48,7 @@ function picture(p, { className = "", eager = false, sizes = "(max-width: 720px)
   </picture>`;
 }
 
-function bookingBand(id = "booking", { glass = false } = {}) {
+function bookingBand(id = "booking", { glass = true } = {}) {
   return `<section class="booking-band${glass ? " sea-section" : ""}" id="${id}" aria-labelledby="booking-title">
     <div${glass ? ' class="glass"' : ""}>
       <div class="booking-head">
@@ -89,13 +89,7 @@ function intro(page) {
 
 function home() {
   const page = pages.home;
-  return `<div class="sea-stage" aria-hidden="true">
-    <div class="seafloor"></div>
-    <div class="light-sweep"></div>
-    <canvas id="sea-canvas"></canvas>
-    <div class="depth-veil"></div>
-  </div>
-  <main id="main" tabindex="-1">
+  return `<main id="main" tabindex="-1">
     <section class="sea-hero" id="page-intro">
       <p class="eyebrow">${page.eyebrow}</p>
       <h1><span class="hero-line"><span>Come home to</span></span><span class="hero-line"><span>the <em>slower side</em></span></span><span class="hero-line"><span>of the coast.</span></span></h1>
@@ -177,7 +171,7 @@ function guide() {
   <article class="guide-article">
     <section class="reveal">
       <h2>1 · The idea: the water is the interface</h2>
-      <p>The brief was a booking site where a turquoise, <em>see-through</em> Caribbean sea sits behind everything — including the live Guesty calendar. So the home page is built as a water column: a sunlit sand seafloor at the very back, a real-time WebGL water surface in front of it, and the content floating between them in panels of glass. Scrolling doesn’t move past the ocean; it descends through it, until the page finally washes ashore onto sand.</p>
+      <p>The brief was a booking site where a turquoise, <em>see-through</em> Caribbean sea sits behind everything — including the live Guesty calendar. Every route is built as a water column: a sunlit sand seafloor at the very back, a real-time WebGL water surface in front of it, and the content floating between them in panels of glass. On the home page, scrolling doesn’t move past the ocean; it descends through it, until that page finally washes ashore onto sand.</p>
     </section>
     <section class="reveal">
       <h2>2 · A transparent Gerstner ocean</h2>
@@ -279,22 +273,32 @@ function schema() {
   return JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: site.domain, description: pages.home.description });
 }
 
-function shell(page, active, body, { sea = false, analytics = {} } = {}) {
+function seaStage() {
+  return `<div class="sea-stage" aria-hidden="true">
+    <div class="seafloor"></div>
+    <div class="light-sweep"></div>
+    <canvas id="sea-canvas"></canvas>
+    <div class="depth-veil"></div>
+  </div>`;
+}
+
+function shell(page, active, body, { sea = true, analytics = {} } = {}) {
   const oceanScripts = sea
     ? `<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script type="module" src="/assets/ocean.js"></script>`
     : "";
   const analyticsHead = analyticsHeadSnippet(analytics);
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${sea ? "#0b7c96" : "#f6eedd"}"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script>${analyticsHead}<script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="${sea ? "page-sea" : "page-sand"}"><a class="skip-link" href="#main">Skip to main content</a>${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="/faq/">Booking questions</a><a href="${site.bookingUrl}"${analyticsAttrs("footer_booking", "footer")}>Guesty booking</a><a href="/contact/">Contact</a><a href="/guide/">How this was built</a><a href="mailto:${site.email}">Email</a></div><p class="credit">Designed &amp; built by Claude (Fable 5) · <a href="/guide/">read the maker’s guide</a></p></footer></body></html>`;
+  const stage = sea ? seaStage() : "";
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${sea ? "#0b7c96" : "#f6eedd"}"><title>${page.title}</title><meta name="description" content="${page.description}"><meta name="robots" content="index,follow"><link rel="canonical" href="${site.domain}${page.path}"><meta property="og:type" content="website"><meta property="og:site_name" content="${site.name}"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${site.domain}${page.path}"><meta property="og:image" content="${site.domain}/assets/images/kitchen-living-1200.jpg"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="/assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styles.css"><link rel="expect" href="#page-intro" blocking="render"><script type="application/ld+json">${schema()}</script>${analyticsHead}<script type="module" src="/assets/main.js"></script>${oceanScripts}</head><body class="${sea ? "page-sea" : "page-sand"}"><a class="skip-link" href="#main">Skip to main content</a>${stage}${nav(active)}${body}<footer><a class="brand footer-brand" href="/"><span>Central Island</span><em>Home</em></a><p>A real-property coastal stay, with booking details provided by Guesty.</p><div><a href="/faq/">Booking questions</a><a href="${site.bookingUrl}"${analyticsAttrs("footer_booking", "footer")}>Guesty booking</a><a href="/contact/">Contact</a><a href="/guide/">How this was built</a><a href="mailto:${site.email}">Email</a></div><p class="credit">Designed &amp; built by Claude (Fable 5) · <a href="/guide/">read the maker’s guide</a></p></footer></body></html>`;
 }
 
 export function renderPages(analytics = {}) {
   return [
     { path: "index.html", html: shell(pages.home, "/", home(), { sea: true, analytics }) },
-    { path: "stay/index.html", html: shell(pages.stay, "/stay/", stay(), { analytics }) },
-    { path: "gallery/index.html", html: shell(pages.gallery, "/gallery/", gallery(), { analytics }) },
-    { path: "location/index.html", html: shell(pages.location, "/location/", location(), { analytics }) },
-    { path: "faq/index.html", html: shell(pages.faq, "/faq/", faq(), { analytics }) },
-    { path: "contact/index.html", html: shell(pages.contact, "/contact/", contact(), { analytics }) },
-    { path: "guide/index.html", html: shell(pages.guide, "/guide/", guide(), { analytics }) },
+    { path: "stay/index.html", html: shell(pages.stay, "/stay/", stay(), { sea: true, analytics }) },
+    { path: "gallery/index.html", html: shell(pages.gallery, "/gallery/", gallery(), { sea: true, analytics }) },
+    { path: "location/index.html", html: shell(pages.location, "/location/", location(), { sea: true, analytics }) },
+    { path: "faq/index.html", html: shell(pages.faq, "/faq/", faq(), { sea: true, analytics }) },
+    { path: "contact/index.html", html: shell(pages.contact, "/contact/", contact(), { sea: true, analytics }) },
+    { path: "guide/index.html", html: shell(pages.guide, "/guide/", guide(), { sea: true, analytics }) },
   ];
 }
