@@ -49,15 +49,15 @@ function bookingBand(id = "booking", { glass = true } = {}) {
       <div class="booking-head">
         <p class="eyebrow">Direct Guesty Booking</p>
         <h2 id="booking-title">Choose your dates when you’re ready.</h2>
-        <p>Guesty holds live availability, real-time rates, and instant reservation confirmation.</p>
+        <p>Guesty holds current availability, pricing, and reservation terms.</p>
       </div>
       <div class="booking-widget-shell">
         <div id="search-widget_IO312PWQ" data-guesty-widget aria-label="Guesty availability search"></div>
         <div class="booking-direct-card">
           <div class="direct-perks">
-            <div class="perk"><span>✓</span> Best Rate Direct</div>
-            <div class="perk"><span>✓</span> Instant Confirmation</div>
-            <div class="perk"><span>✓</span> Live Calendar</div>
+            <div class="perk"><span>✓</span> Live availability</div>
+            <div class="perk"><span>✓</span> Current pricing</div>
+            <div class="perk"><span>✓</span> Booking completed on Guesty</div>
           </div>
           <a class="button button-coral" href="${site.bookingUrl}" data-analytics-event="booking_cta_click" data-analytics-label="booking_band_direct" data-analytics-location="booking_band">Check Live Calendar on Guesty →</a>
         </div>
