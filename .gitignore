@@ -68,3 +68,6 @@ output/
 
 # QA pass screenshots (kept locally, documented in /guide)
 docs/passes/
+
+.vercel
+.env*
