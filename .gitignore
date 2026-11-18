@@ -20,7 +20,8 @@ Thumbs.db
 .vscode/
 
 # Agent/AI config (not needed for deployment)
-.agents/
+.agents/*
+!.agents/environment.json
 .claude/
 model-chat-skill/
 multi-agent-chrome-skill/
